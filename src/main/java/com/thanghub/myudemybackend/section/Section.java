@@ -1,0 +1,29 @@
+package com.thanghub.myudemybackend.section;
+
+import com.thanghub.myudemybackend.common.BaseEntity;
+import com.thanghub.myudemybackend.course.Course;
+import com.thanghub.myudemybackend.course.Lesson;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "sections")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Section extends BaseEntity {
+    @Column(nullable = false)
+    private String title;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
+
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Lesson> lessons = new ArrayList<>();
+}
